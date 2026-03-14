@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include <chrono>
+#include <string>
 
 class Utils {
 public:
