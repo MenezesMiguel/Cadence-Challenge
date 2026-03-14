@@ -1,0 +1,13 @@
+#ifndef UTILS_H
+#define UTILS_H
+
+#include <chrono>
+
+class Utils {
+public:
+    static std::chrono::system_clock::time_point readTimestamp();
+    std::string plateGenerator(int sort);
+    std::string randomLetters(int quantity);
+};
+
+#endif
