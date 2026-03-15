@@ -1,20 +1,21 @@
+#include <chrono>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
+
 #include "traffic_light_log.h"
 #include "utils.h"
 
-TrafficLightLog trafficLog;
-Utils utils;
-std::string randomLetters(int);
-std::string plateGenerator(int);
-void simulateRegisters();
+static void simulateRegisters(TrafficLightLog& trafficLog, const Utils& utils);
 
 int main() {
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-    srand(time(NULL));
+    TrafficLightLog trafficLog;
+    Utils utils;
+    simulateRegisters(trafficLog, utils);
 
-    simulateRegisters();
-
-    decltype(utils.readTimestamp()) begin, end;
+    std::chrono::system_clock::time_point begin, end;
 
     while(true) {
         std::cout << "Insert initial date and hour (YYYY-MM-DD HH:MM:SS)" << std::endl;
@@ -30,13 +31,14 @@ int main() {
         }
     }
 
-auto logs = trafficLog.getLogsByTime(begin, end);  // Now this works!
+    auto logs = trafficLog.getLogsByTime(begin, end);
 
-    std::cout << "Registers added successfully." << std::endl;
+    std::cout << "All registers:\n";
     trafficLog.printAllLog();
 
-    std::cout << "Filtered licences";
+    std::cout << "\nFiltered licenses (" << logs.size() << "):\n";
     trafficLog.printFilteredLog(logs);
+
     return 0;
 }
 
@@ -52,18 +54,18 @@ auto logs = trafficLog.getLogsByTime(begin, end);  // Now this works!
  * @return void (no return value)
  * 
  */
-void simulateRegisters(){
 
+static void simulateRegisters(TrafficLightLog& trafficLog, const Utils& utils) {
     auto current_time = std::chrono::system_clock::now();
 
-    for(int i = 0; i<100; i++){
+    for (int i = 0; i < 100; i++) {
         Register r;
-        r.license_plate = utils.plateGenerator(rand() % 2);
-        r.traffic_light_color = static_cast<TrafficLightColor>(rand() % 3);
-        current_time += std::chrono::seconds(rand() % 5 + 10000); // Always increases
+        r.license_plate = utils.plateGenerator(std::rand() % 2);
+        r.traffic_light_color = static_cast<TrafficLightColor>(std::rand() % 3);
+        current_time += std::chrono::seconds(std::rand() % 5 + 10000);
         r.timestamp = current_time;
 
         trafficLog.addRegister(r);
-    };
-};
+    }
+}
 

@@ -7,8 +7,8 @@
 class Utils {
 public:
     static std::chrono::system_clock::time_point readTimestamp();
-    std::string plateGenerator(int sort);
-    std::string randomLetters(int quantity);
+    std::string plateGenerator(int sort) const;
+    std::string randomLetters(int quantity)const;
 };
 
 #endif

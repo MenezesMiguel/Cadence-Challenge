@@ -2,6 +2,9 @@
 #include <sstream>
 #include <iomanip>
 #include <chrono>
+#include <cstdio>
+#include <ctime>
+#include <cstdlib>
 #include "utils.h"
 
 /**
@@ -30,7 +33,10 @@ std::chrono::system_clock::time_point Utils::readTimestamp() {
     while(true) {
         std::string input;
         std::cout << "Enter time (YYYY-MM-DD HH:MM:SS): ";
-        std::getline(std::cin, input);
+        if (!std::getline(std::cin, input)) {
+            std::cout << "\nInput closed.\n";
+            std::exit(1);
+        }
 
         int year, month, day, hour, minute, second;
         
@@ -120,7 +126,7 @@ std::chrono::system_clock::time_point Utils::readTimestamp() {
  * // Returns: "DSJN" (or any random 4-letter combination)
  */
 
-std::string Utils::randomLetters(int quantity){
+std::string Utils::randomLetters(int quantity) const {
     std::string result(quantity, ' ');
 
     for (char& c : result) {
@@ -150,7 +156,7 @@ std::string Utils::randomLetters(int quantity){
  * std::string newPlate = utils.plateGenerator(1);
  * // Returns: "ABC1D23" (3 letters + 1 digit + 1 letter + 2 digits)
  */
-std::string Utils::plateGenerator(int sort){
+std::string Utils::plateGenerator(int sort) const {
     std::string plate;
 
     if(sort == 0){

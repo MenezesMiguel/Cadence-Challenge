@@ -1,8 +1,12 @@
-#include <iostream>
+#include <algorithm>
+#include <ctime>
 #include <iomanip>
+#include <iostream>
 #include "traffic_light_log.h"
 
 TrafficLightLog::TrafficLightLog() {}
+
+using Timestamp = std::chrono::system_clock::time_point;
 
 /**
  * @brief Get logs filtered between two dates
@@ -33,8 +37,8 @@ TrafficLightLog::TrafficLightLog() {}
  * }
  */
 std::vector<Register> TrafficLightLog::getLogsByTime(
-    std::chrono::system_clock::time_point begin,
-    std::chrono::system_clock::time_point finish
+    const Timestamp begin,
+    const Timestamp finish
 ) {
     auto start = std::lower_bound(
         registers_.begin(),

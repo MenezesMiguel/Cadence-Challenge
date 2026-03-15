@@ -5,6 +5,7 @@
 #include <chrono>
 #include <vector>
 
+using Timestamp = std::chrono::system_clock::time_point;
 
 enum class TrafficLightColor {
     RED,
@@ -14,7 +15,7 @@ enum class TrafficLightColor {
 
 struct Register {
     std::string license_plate;
-    std::chrono::system_clock::time_point timestamp;
+    Timestamp timestamp;
     TrafficLightColor traffic_light_color;      
 };
 
@@ -28,8 +29,8 @@ class TrafficLightLog {
     void printFilteredLog(const std::vector<Register>& logs) const;
 
     std::vector<Register> getLogsByTime(
-        std::chrono::system_clock::time_point begin,
-        std::chrono::system_clock::time_point finish
+        const Timestamp begin,
+        const Timestamp finish
     );
 
     private:
